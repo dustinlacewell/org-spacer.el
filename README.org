@@ -38,3 +38,5 @@ Alternatively, add it to a =before-save-hook=:
                             'org-spacer-enforce nil 'make-it-local)))
   
 #+end_src
+
+[[https://github.com/dustinlacewell/org-spacer.el/blob/master/example.gif?raw=true]]
