@@ -1,0 +1,40 @@
+#+TITLE: org-spacer.el
+
+This simple package allows you to enforce the number of blanks lines after
+elements in an org-mode document.
+
+* Installation
+
+** el-get
+#+begin_src emacs-lisp
+  (el-get-bundle org-spacer
+    :url "https://github.com/dustinlacewell/org-spacer.el.git"
+    :features org-spacer)
+#+end_src
+
+** straight.el
+#+begin_src emacs-lisp
+  (use-package org-spacer
+    :straight (org-spacer :type git :host github :repo "dustinlacewell/org-spacer.el")
+#+end_src
+
+* Configuration
+
+** org-spacer-headline-blanks (0)
+This controls how many blank lines should appear directly after headlines.
+
+** org-spacer-non-headline-blanks (1)
+This controls how many blank lines should appear directly after non-headline
+elements.
+
+* Usage
+Just execute =M-x org-spacer-enforce= to apply spacings.
+
+Alternatively, add it to a =before-save-hook=:
+
+#+begin_src emacs-lisp
+  (add-hook 'org-mode-hook
+            (lambda () (add-hook 'before-save-hook
+                            'org-spacer-enforce nil 'make-it-local)))
+  
+#+end_src
