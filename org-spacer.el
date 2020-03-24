@@ -75,7 +75,7 @@
     (dolist (ele org-spacer-element-blanks)
       (seq-let (blanks &rest types) ele
           (dolist (type types)
-            (map-put map type blanks))))
+            (funcall (if (fboundp 'map-put!) 'map-put! 'map-put) map type blanks))))
     map))
 
 (defun org-spacer-enforce ()
