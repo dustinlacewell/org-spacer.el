@@ -1,8 +1,5 @@
-(defcustom org-spacer-headline-blanks 0
-  "How many blank lines to place after headlines.")
-
-(defcustom org-spacer-non-headline-blanks 1
-  "How many blank links to place after non-headline elements.")
+(defcustom org-spacer-element-blanks '((0 headline)
+                                       (1 paragraph src-block table property-drawer)) "")
 
 (defun org-spacer--mark-elements (data types)
   (let ((markers nil))
@@ -55,12 +52,27 @@
         (when (< blanks post-blank)
           (delete-backward-char (- post-blank blanks)))))))
 
+(defun org-spacer--build-blanks-map ()
+  (let ((map (make-hash-table)))
+    (dolist (ele org-spacer-element-blanks)
+      (seq-let (blanks &rest types) ele
+          (dolist (type types)
+            (map-put! map type blanks))))
+    map))
+
 (defun org-spacer-enforce ()
   (interactive)
-  (let* ((data (org-element-parse-buffer))
-         (types '(headline src-block paragraph))
-         (targets (org-spacer--mark-elements data types)))
-    (--each targets
-      (pcase (car it)
-        ('headline (org-spacer--trim-headline it org-spacer-headline-blanks))
-        (t (org-spacer--trim-non-headline it org-spacer-non-headline-blanks))))))
+  (let* ((mark (set-marker (make-marker) (point)))
+         (map (org-spacer--build-blanks-map))
+         (types (map-keys map)))
+    (org-save-outline-visibility t
+      (let* ((data (org-element-parse-buffer))
+             (targets (org-spacer--mark-elements data types)))
+        (org-show-all)
+        (--each targets
+          (let* ((type (car it))
+                 (blanks (map-elt map type)))
+            (pcase type
+              ('headline (org-spacer--trim-headline it blanks))
+              (_ (org-spacer--trim-non-headline it blanks)))))
+        (goto-char mark)))))
