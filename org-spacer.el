@@ -1,3 +1,21 @@
+;;; org-spacer.el --- Enforce blank lines for Org-mode -*- lexical-binding: t; -*-
+;; Copyright (C) 2020 Dustin Lacewell
+
+;; Author: Dustin Lacewell <dlacewell@gmail.com>
+;; Version: 0.1.0
+;; Package-Requires: ((emacs "26") (dash "0"))
+;; Keywords: org-mode formatting
+;; URL: http://github.com/dustinlacewell/org-spacer.el
+
+;;; Commentary:
+
+;; This package lets enforce blank lines between elements in an org-mode document.
+
+;;; Code:
+(require 'map)
+(require 'seq)
+(require 'org)
+
 (defcustom org-spacer-element-blanks '((0 headline)
                                        (1 paragraph src-block table property-drawer)) "")
 
@@ -76,3 +94,7 @@
               ('headline (org-spacer--trim-headline it blanks))
               (_ (org-spacer--trim-non-headline it blanks)))))
         (goto-char mark)))))
+
+(provide 'org-spacer)
+
+;;; org-spacer.el ends here
