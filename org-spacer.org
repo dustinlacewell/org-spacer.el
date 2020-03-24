@@ -27,7 +27,7 @@
 ** element-blanks
 #+begin_src emacs-lisp
   (defcustom org-spacer-element-blanks '((0 headline)
-                                         (1 paragraph src-block table property-drawer)) "")
+                                         (1 paragraph src-block table property-drawer plain-list)) "")
 #+end_src
 
 * boilerplate

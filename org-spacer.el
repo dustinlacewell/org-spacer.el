@@ -17,7 +17,7 @@
 (require 'org)
 
 (defcustom org-spacer-element-blanks '((0 headline)
-                                       (1 paragraph src-block table property-drawer)) "")
+                                       (1 paragraph src-block table property-drawer plain-list)) "")
 
 (defun org-spacer--mark-elements (data types)
   (let ((markers nil))
