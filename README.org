@@ -3,8 +3,10 @@
 This simple package allows you to enforce the number of blanks lines after
 elements in an org-mode document.
 
-* Installation
+This package is *experimental* and might delete some contents of your buffer
+other than blank lines if there are bugs. Contribution is very welcome.
 
+* Installation
 ** el-get
 #+begin_src emacs-lisp
   (el-get-bundle org-spacer
@@ -19,13 +21,18 @@ elements in an org-mode document.
 #+end_src
 
 * Configuration
+** org-spacer-element-blanks
+This variable controls which org elements you want processed and how many blank
+lines to enforce for each.
 
-** org-spacer-headline-blanks (0)
-This controls how many blank lines should appear directly after headlines.
+It is a list of lists. Each inner list's car is the number of blanks. One or
+more org element symbols may follow:
 
-** org-spacer-non-headline-blanks (1)
-This controls how many blank lines should appear directly after non-headline
-elements.
+#+begin_src emacs-lisp
+  (setq org-spacer-element-blanks
+    '((0 headline)
+      (1 paragraph src-block table property-drawer)))
+#+end_src
 
 * Usage
 Just execute =M-x org-spacer-enforce= to apply spacings.
@@ -36,7 +43,5 @@ Alternatively, add it to a =before-save-hook=:
   (add-hook 'org-mode-hook
             (lambda () (add-hook 'before-save-hook
                             'org-spacer-enforce nil 'make-it-local)))
-  
 #+end_src
 
-[[https://github.com/dustinlacewell/org-spacer.el/blob/master/example.gif?raw=true]]
